@@ -36,6 +36,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.latihansebelumpraktikummobpro.R
 import com.example.latihansebelumpraktikummobpro.ui.theme.LatihanSebelumPraktikumMobproTheme
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -156,16 +159,26 @@ fun ScreenContent(modifier: Modifier) {
                 thickness = 2.dp
             )
             Text(
-                text = stringResource(R.string.area_x, area),
+                text = stringResource(R.string.area_x, formatNumber(area)),
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                text = stringResource(R.string.perimeter_x, perimeter),
+                text = stringResource(R.string.perimeter_x, formatNumber(perimeter)),
                 style = MaterialTheme.typography.titleLarge
             )
         }
 
     }
+}
+
+@Composable
+fun formatNumber(number: Double): String {
+    val symbols = DecimalFormatSymbols(Locale("id", "ID")).apply {
+        decimalSeparator = ','
+        groupingSeparator = '.'
+    }
+    val formatter = DecimalFormat("#,##0.00", symbols)
+    return formatter.format(number)
 }
 
 @Composable
