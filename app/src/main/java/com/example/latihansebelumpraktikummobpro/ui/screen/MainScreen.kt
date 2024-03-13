@@ -24,6 +24,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -68,9 +69,17 @@ fun ScreenContent(modifier: Modifier) {
     var width by remember { mutableStateOf("") }
     var widthError by remember { mutableStateOf(false) }
 
-    var area by remember { mutableStateOf(0.0) }
-    var perimeter by remember { mutableStateOf(0.0) }
+    var area by remember { mutableDoubleStateOf(0.0) }
+    var perimeter by remember { mutableDoubleStateOf(0.0) }
     var showError by remember { mutableStateOf(false) }
+
+    val symbols = DecimalFormatSymbols(Locale.GERMANY).apply {
+        decimalSeparator = ','
+        groupingSeparator = '.'
+    }
+    val formatter = DecimalFormat("#,##0.00", symbols)
+    val formattedArea = formatter.format(area)
+    val formattedPerimeter = formatter.format(perimeter)
 
     Column(
         modifier = modifier
@@ -159,11 +168,11 @@ fun ScreenContent(modifier: Modifier) {
                 thickness = 2.dp
             )
             Text(
-                text = stringResource(R.string.area_x, formatNumber(area)),
+                text = "Luas: $formattedArea",
                 style = MaterialTheme.typography.titleLarge
             )
             Text(
-                text = stringResource(R.string.perimeter_x, formatNumber(perimeter)),
+                text = "Keliling: $formattedPerimeter",
                 style = MaterialTheme.typography.titleLarge
             )
         }
@@ -171,15 +180,7 @@ fun ScreenContent(modifier: Modifier) {
     }
 }
 
-@Composable
-fun formatNumber(number: Double): String {
-    val symbols = DecimalFormatSymbols(Locale("id", "ID")).apply {
-        decimalSeparator = ','
-        groupingSeparator = '.'
-    }
-    val formatter = DecimalFormat("#,##0.00", symbols)
-    return formatter.format(number)
-}
+
 
 @Composable
 fun ErrorHint(isError: Boolean) {
