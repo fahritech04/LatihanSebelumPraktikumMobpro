@@ -69,17 +69,16 @@ fun ScreenContent(modifier: Modifier) {
     var width by remember { mutableStateOf("") }
     var widthError by remember { mutableStateOf(false) }
 
-    var area by remember { mutableDoubleStateOf(0.0) }
-    var perimeter by remember { mutableDoubleStateOf(0.0) }
-    var showError by remember { mutableStateOf(false) }
+    var luas by remember { mutableDoubleStateOf(0.0) }
+    var keliling by remember { mutableDoubleStateOf(0.0) }
 
     val symbols = DecimalFormatSymbols(Locale.GERMANY).apply {
         decimalSeparator = ','
         groupingSeparator = '.'
     }
     val formatter = DecimalFormat("#,##0.00", symbols)
-    val formattedArea = formatter.format(area)
-    val formattedPerimeter = formatter.format(perimeter)
+    val formattedArea = formatter.format(luas)
+    val formattedPerimeter = formatter.format(keliling)
 
     Column(
         modifier = modifier
@@ -133,9 +132,8 @@ fun ScreenContent(modifier: Modifier) {
 
                     if (lengthError || widthError) return@Button
 
-                    showError = false
-                    area = length.toDouble() * width.toDouble()
-                    perimeter = 2 * (length.toDouble() + width.toDouble())
+                    luas = length.toDouble() * width.toDouble()
+                    keliling = 2 * (length.toDouble() + width.toDouble())
                 },
                 modifier = Modifier.padding(top = 8.dp),
                 contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
@@ -149,11 +147,10 @@ fun ScreenContent(modifier: Modifier) {
                 onClick = {
                     length = ""
                     width = ""
-                    area = 0.0
-                    perimeter = 0.0
+                    luas = 0.0
+                    keliling = 0.0
                     lengthError = false
                     widthError = false
-                    showError = false
                 },
                 modifier = Modifier.padding(top = 8.dp),
                 contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
@@ -162,7 +159,7 @@ fun ScreenContent(modifier: Modifier) {
             }
         }
 
-        if (area != 0.0 || perimeter != 0.0) {
+        if (luas != 0.0 || keliling != 0.0) {
             Divider(
                 modifier = Modifier.padding(vertical = 8.dp),
                 thickness = 2.dp
