@@ -4,10 +4,10 @@
     <string name="length">Panjang</string>
     <string name="width">Lebar</string>
     <string name="calculate">Hitung</string>
+    <string name="reset">Reset</string>
     <string name="area">Luas</string>
     <string name="perimeter">Keliling</string>
     <string name="input_error">Error: Input tidak boleh kosong</string>
     <string name="area_x">Luas: %.2f</string>
     <string name="perimeter_x">Keliling: %.2f</string>
-
 </resources>

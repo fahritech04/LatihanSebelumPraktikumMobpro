@@ -4,9 +4,12 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -67,7 +70,8 @@ fun ScreenContent(modifier: Modifier) {
     var showError by remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -105,24 +109,46 @@ fun ScreenContent(modifier: Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
 
-        Button(
-            onClick = {
-                lengthError = (length == "" || length == "0")
-                widthError = (width == "" || width == "0")
-
-                if (lengthError || widthError) return@Button
-
-                showError = false
-                area = length.toDouble() * width.toDouble()
-                perimeter = 2 * (length.toDouble() + width.toDouble())
-            },
-            modifier = Modifier.padding(top = 8.dp),
-            contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(id = R.string.calculate))
+            Button(
+                onClick = {
+                    lengthError = (length == "" || length == "0")
+                    widthError = (width == "" || width == "0")
+
+                    if (lengthError || widthError) return@Button
+
+                    showError = false
+                    area = length.toDouble() * width.toDouble()
+                    perimeter = 2 * (length.toDouble() + width.toDouble())
+                },
+                modifier = Modifier.padding(top = 8.dp),
+                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+            ) {
+                Text(text = stringResource(id = R.string.calculate))
+            }
+
+            Spacer(Modifier.width(8.dp))
+
+            Button(
+                onClick = {
+                    length = ""
+                    width = ""
+                    area = 0.0
+                    perimeter = 0.0
+                    lengthError = false
+                    widthError = false
+                    showError = false
+                },
+                modifier = Modifier.padding(top = 8.dp),
+                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 16.dp)
+            ) {
+                Text(text = stringResource(id = R.string.reset))
+            }
         }
-
-
 
         if (area != 0.0 || perimeter != 0.0) {
             Divider(
